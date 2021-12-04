@@ -17,6 +17,7 @@
 		5C0CCCF6275B41BE006D5BBF /* SoundVisualizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0CCCF5275B41BE006D5BBF /* SoundVisualizerTests.swift */; };
 		5C0CCD00275B41BF006D5BBF /* SoundVisualizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0CCCFF275B41BF006D5BBF /* SoundVisualizerUITests.swift */; };
 		5C0CCD02275B41BF006D5BBF /* SoundVisualizerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0CCD01275B41BF006D5BBF /* SoundVisualizerUITestsLaunchTests.swift */; };
+		5C0CCD13275B6CAC006D5BBF /* CircleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5C0CCD12275B6CAC006D5BBF /* CircleShader.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		5C0CCCFB275B41BF006D5BBF /* SoundVisualizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundVisualizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C0CCCFF275B41BF006D5BBF /* SoundVisualizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundVisualizerUITests.swift; sourceTree = "<group>"; };
 		5C0CCD01275B41BF006D5BBF /* SoundVisualizerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundVisualizerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5C0CCD12275B6CAC006D5BBF /* CircleShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = CircleShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,13 +103,14 @@
 		5C0CCCDA275B41BD006D5BBF /* SoundVisualizer */ = {
 			isa = PBXGroup;
 			children = (
+				5C0CCD12275B6CAC006D5BBF /* CircleShader.metal */,
+				5C0CCCEC275B41BE006D5BBF /* Info.plist */,
 				5C0CCCDB275B41BD006D5BBF /* AppDelegate.swift */,
 				5C0CCCDD275B41BD006D5BBF /* SceneDelegate.swift */,
 				5C0CCCDF275B41BD006D5BBF /* ViewController.swift */,
-				5C0CCCE1275B41BD006D5BBF /* Main.storyboard */,
 				5C0CCCE7275B41BE006D5BBF /* Assets.xcassets */,
 				5C0CCCE9275B41BE006D5BBF /* LaunchScreen.storyboard */,
-				5C0CCCEC275B41BE006D5BBF /* Info.plist */,
+				5C0CCCE1275B41BD006D5BBF /* Main.storyboard */,
 				5C0CCCE4275B41BD006D5BBF /* SoundVisualizer.xcdatamodeld */,
 			);
 			path = SoundVisualizer;
@@ -265,6 +268,7 @@
 				5C0CCCDC275B41BD006D5BBF /* AppDelegate.swift in Sources */,
 				5C0CCCDE275B41BD006D5BBF /* SceneDelegate.swift in Sources */,
 				5C0CCCE6275B41BD006D5BBF /* SoundVisualizer.xcdatamodeld in Sources */,
+				5C0CCD13275B6CAC006D5BBF /* CircleShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
