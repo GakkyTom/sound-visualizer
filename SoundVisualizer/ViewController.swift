@@ -8,26 +8,36 @@
 import UIKit
 import MetalKit
 import simd
+import AVFoundation
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var metalCircleView: MTKView!
-    
+
+    // MARK: Variables for Metal
     private let metalDevice = MTLCreateSystemDefaultDevice()!
-    private let renderPassDescriptor = MTLRenderPassDescriptor()
-    
+
     private var metalCommandQueue: MTLCommandQueue!
     private var metalRenderPipelineState: MTLRenderPipelineState!
     
     private var circleVertices = [simd_float2]()
     private var vertexBuffer: MTLBuffer!
-    
+    private var renderPipeline: MTLRenderPipelineState!
+    private let renderPassDescriptor = MTLRenderPassDescriptor()
+
+    // MARK: Variables for Audio
+    private var engine: AVAudioEngine!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         createVertexPoints()
 
         setupMetal()
+        metalCircleView.enableSetNeedsDisplay = true
+        metalCircleView.setNeedsDisplay()
+
+        setupAudio()
     }
     
     private func setupMetal() {
@@ -109,5 +119,62 @@ extension ViewController: MTKViewDelegate {
         renderEncoder.endEncoding()
         commandBuffer.present(view.currentDrawable!)
         commandBuffer.commit()
+    }
+}
+// MARK: AVAudio
+extension ViewController {
+
+    private func setupAudio() {
+        engine = AVAudioEngine()
+
+        // initialzing the mainMixerNode singleton which will connect to the default output node
+        // Since .mainMixerNode is singleton, it needs to be initialized only once.
+        _ = engine.mainMixerNode
+
+        // prepare and start
+        engine.prepare()
+        do {
+            try engine.start()
+        } catch {
+            print("prepare engine error: \(error)")
+        }
+
+        guard let url = Bundle.main.url(forResource: "training_data_snare", withExtension: "mp3")
+        else {
+            print("mp3 not found")
+            return
+        }
+
+        let player = AVAudioPlayerNode()
+
+        do {
+            let audioFile = try AVAudioFile(forReading: url)
+            let format = audioFile.processingFormat
+
+            print("format: \(format)")
+
+            engine.attach(player)
+            engine.connect(player, to: engine.mainMixerNode, format: format)
+
+            player.scheduleFile(audioFile, at: nil, completionHandler: nil)
+        } catch {
+            print("attach audio error: \(error)")
+        }
+
+        // The tapBlock may be invoked on a thread other than the main thread.
+        engine.mainMixerNode.installTap(onBus: 0, bufferSize: 2048, format: nil) { buffer, time in
+            self.processAudioData(buffer: buffer)
+        }
+
+        player.play()
+    }
+
+    func processAudioData(buffer: AVAudioPCMBuffer) {
+        guard let channelData = buffer.floatChannelData?[0] else { return }
+
+        let frames = buffer.frameLength
+
+        let rmsValue = SignalProcessing.rms(data: channelData, frameLength: UInt(frames))
+        print(rmsValue)
     }
 }
